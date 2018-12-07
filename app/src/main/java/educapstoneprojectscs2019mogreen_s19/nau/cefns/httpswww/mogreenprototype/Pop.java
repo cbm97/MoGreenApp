@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 
+
+//Class for popup menu
 public class Pop extends Map_Menu {
 
         protected void onCreate(Bundle savedInstanceState) {
