@@ -38,11 +38,14 @@
         <activity
             android:name=".Map_Menu"
             android:label="@string/title_activity_map__menu"></activity>
-        <activity android:name=".Pop"></activity>
+
+        <activity android:name=".Pop"
+            android:theme="@style/AppTheme.PopMe" >
+
+        </activity>
 
     </application>
-    package="com.example.currentplacedetailsonmap">
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
 </manifest>
 
