@@ -26,9 +26,6 @@ public class Pop extends Map_Menu {
             getWindow().setAttributes(params);
 
 
-
-
-
         }
 
 
