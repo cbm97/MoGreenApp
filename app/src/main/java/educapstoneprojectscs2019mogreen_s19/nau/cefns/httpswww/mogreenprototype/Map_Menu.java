@@ -10,6 +10,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -45,11 +46,16 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        // Add a marker in Sydney and move the camera
-        LatLng flagstaff = new LatLng(35.19, -111.65);
-        mMap.addMarker(new MarkerOptions().position(flagstaff));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(flagstaff));
+
+        //Adds bounds for map
+        LatLng flag1 = new LatLng(35.174725, -111.660692);
+        LatLng flag2 = new LatLng(35.193198,  -111.649685);
+        LatLngBounds flagsLatlng = new LatLngBounds(flag1, flag2);
+
+        //Applies Bounds, Modify padding to zoom out or in.
+        mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(flagsLatlng,1500, 1500, 0));
+
+        //First polygon object
         PolygonOptions squares = new PolygonOptions();
             squares.add(new LatLng(35.178345, -111.656999),
                     new LatLng(35.178309, -111.656157),
@@ -58,17 +64,24 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
                     new LatLng(35.178345, -111.656999));
                     squares.strokeColor(Color.GREEN);
                     squares.fillColor(Color.GREEN);
+                    Polygon polyline = mMap.addPolygon(squares);
 
-        Polygon polyline = mMap.addPolygon(squares);
+        //Sets polygons as clickable
         polyline.setClickable(true);
+
+        //Opens popup menu
         googleMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             public void onPolygonClick(Polygon polygon) {
                 startActivity(new Intent(Map_Menu.this, Pop.class));
 
             }
         });
+
+
     }
 
+
+    //Adds shape, Will likely make a class later
     public void addShape(LatLng point1,LatLng point2, LatLng point3, LatLng point4 ){
         PolygonOptions squares = new PolygonOptions();
             squares.add(point1);
@@ -79,6 +92,8 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
 
     }
 
+
+    //Creates LatLng object
     public LatLng pointCreate(float lat, float longa){
         LatLng tempo = new LatLng(lat, longa);
         return tempo;
