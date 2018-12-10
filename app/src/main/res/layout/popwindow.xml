@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:persistentDrawingCache="animation">
@@ -42,7 +43,9 @@
         android:ems="10"
         android:gravity="top"
         android:hint="Enter details here..."
-        android:inputType="text|textPersonName"
-        android:textAlignment="viewStart" />
+        android:inputType="textNoSuggestions"
+        android:background="@null"
+        android:selectAllOnFocus="true"
+        android:singleLine="false" />
 
 </RelativeLayout>

@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -56,6 +57,7 @@ public class Pop extends Map_Menu {
         Button takePicture = findViewById(R.id.picturebutton);
         reportC = findViewById(R.id.reportContent);
         Button submit =  findViewById(R.id.submitbutton);
+
 
 
 
