@@ -15,16 +15,6 @@
         android:layout_marginBottom="1dp"
         android:text="Submit " />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="353dp"
-        android:layout_height="364dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="37dp"
-        android:text="Enter Details Here..." />
-
     <Button
         android:id="@+id/picturebutton"
         android:layout_width="wrap_content"
@@ -42,5 +32,17 @@
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/picturebutton"
         app:srcCompat="@color/common_google_signin_btn_text_dark_default" />
+
+    <EditText
+        android:id="@+id/reportContent"
+        android:layout_width="match_parent"
+        android:layout_height="414dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:gravity="top"
+        android:hint="Enter details here..."
+        android:inputType="text|textPersonName"
+        android:textAlignment="viewStart" />
 
 </RelativeLayout>
