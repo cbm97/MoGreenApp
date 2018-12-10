@@ -1,6 +1,7 @@
 package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,6 +9,8 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -33,6 +36,7 @@ import java.util.Map;
 
 public class Pop extends Map_Menu {
 
+    private int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     int imageFlag = 0;
     Bitmap bitmap;
     String FILENAME = "None";
@@ -46,8 +50,17 @@ public class Pop extends Map_Menu {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popwindow);
 
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_REQUEST_CAMERA);
+        }
 
-        mDatabase = FirebaseFirestore.getInstance();
+
+
+            mDatabase = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
