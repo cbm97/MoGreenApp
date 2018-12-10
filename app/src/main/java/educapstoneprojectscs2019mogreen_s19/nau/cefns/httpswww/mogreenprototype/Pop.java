@@ -1,29 +1,22 @@
 package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.storage.FirebaseStorage;
@@ -111,21 +104,25 @@ public class Pop extends Map_Menu {
 
                 //Getting report content
                 String reportContent = reportC.getText().toString();
-                if(reportContent == ""){
-                    noReport.show();
-                }else{
-                    reportHolder.put("content", reportContent);
-                    reportHolder.put("user", "cbm97@nau.edu");
-                    if(imageFlag == 1){
-                        sendImage();
-                    }else{
-                        reportHolder.put("image", "None");
+                    if (reportContent.equals("")) {
+                        noReport.show();
+                    } else {
+                        reportHolder.put("content", reportContent);
+                        reportHolder.put("user", "cbm97@nau.edu");
+                        if (imageFlag == 1) {
+                            sendImage();
+                        } else {
+                            reportHolder.put("image", "None");
+                        }
+                        mDatabase.collection("NAU").add(reportHolder);
+                        finish();
+
+
+
                     }
-                    mDatabase.collection("NAU").add(reportHolder);
 
-                }
 
-                finish();
+
             }
         });
 
@@ -142,7 +139,7 @@ public class Pop extends Map_Menu {
         //Shows image in activity
         super.onActivityResult(requestCode, resultCode, data);
         bitmap = (Bitmap)data.getExtras().get("data");
-        image = (ImageView) findViewById(R.id.imageView2);
+        image =  findViewById(R.id.imageView2);
         image.setImageBitmap(bitmap);
 
         //Stores file in system
@@ -162,6 +159,7 @@ public class Pop extends Map_Menu {
 
 
     }
+
 
     public void sendImage(){
 
