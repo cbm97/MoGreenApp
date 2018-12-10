@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "861423539121",
+    "firebase_url": "https://mogreen-1543284316825.firebaseio.com",
+    "project_id": "mogreen-1543284316825",
+    "storage_bucket": "mogreen-1543284316825.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861423539121:android:8c2407f76f3e27b4",
+        "android_client_info": {
+          "package_name": "educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "861423539121-5uk2s2ru04bg9j65vin0o3m3usqcg9ft.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype",
+            "certificate_hash": "5fc29f582c54d7d981bf0e6ded98015a022b7a8c"
+          }
+        },
+        {
+          "client_id": "861423539121-8052as3o94i961jrkoagium1uq42n41k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2x0p4ik49ZUUVaGcSjgmzpzBr4W8gHFU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "861423539121-8052as3o94i961jrkoagium1uq42n41k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
