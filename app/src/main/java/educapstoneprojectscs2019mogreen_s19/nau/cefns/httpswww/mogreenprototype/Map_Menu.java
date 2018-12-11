@@ -18,8 +18,11 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
-
+    int red = 0;
+    int green = 255;
     private GoogleMap mMap;
+    PolygonOptions squares;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,8 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+
+
         //Adds bounds for map
         LatLng flag1 = new LatLng(35.174725, -111.660692);
         LatLng flag2 = new LatLng(35.193198,  -111.649685);
@@ -56,14 +61,14 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(flagsLatlng,1500, 1500, 0));
 
         //First polygon object
-        PolygonOptions squares = new PolygonOptions();
+        squares = new PolygonOptions();
             squares.add(new LatLng(35.178345, -111.656999),
                     new LatLng(35.178309, -111.656157),
                     new LatLng(35.177801, -111.656087),
                     new LatLng(35.177748, -111.656956),
                     new LatLng(35.178345, -111.656999));
-                    squares.strokeColor(Color.GREEN);
-                    squares.fillColor(Color.GREEN);
+                    squares.strokeColor(Color.argb(50, 0, 255, 0));
+                    squares.fillColor(Color.argb(70, 0,255, 0));
                     Polygon polyline = mMap.addPolygon(squares);
 
         //Sets polygons as clickable
@@ -73,6 +78,14 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
         googleMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             public void onPolygonClick(Polygon polygon) {
                 startActivity(new Intent(Map_Menu.this, Pop.class));
+
+                red = red + 50;
+                green = green - 50;
+                if(red > 255){red = 255;}
+                if(green < 0){green = 0;}
+
+                polygon.setStrokeColor(Color.argb(50, red, green, 0));
+                polygon.setFillColor(Color.argb(70, red, green, 0));
 
             }
         });
