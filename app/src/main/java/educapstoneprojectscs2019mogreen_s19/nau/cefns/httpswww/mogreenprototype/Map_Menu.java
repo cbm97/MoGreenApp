@@ -11,11 +11,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
+
 
 public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
     int red = 0;
@@ -93,24 +91,6 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
 
     }
 
-
-    //Adds shape, Will likely make a class later
-    public void addShape(LatLng point1,LatLng point2, LatLng point3, LatLng point4 ){
-        PolygonOptions squares = new PolygonOptions();
-            squares.add(point1);
-            squares.add(point2);
-            squares.add(point3);
-            squares.add(point4);
-            squares.add(point1);
-
-    }
-
-
-    //Creates LatLng object
-    public LatLng pointCreate(float lat, float longa){
-        LatLng tempo = new LatLng(lat, longa);
-        return tempo;
-    }
 
 
 }

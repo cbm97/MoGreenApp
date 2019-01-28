@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -129,14 +128,12 @@ public class Pop extends Map_Menu {
                         } else {
                             reportHolder.put("image", "None");
                         }
+
+                        //Sends report from a hashmap containing any used information.
                         mDatabase.collection("NAU").add(reportHolder);
                         finish();
 
-
-
                     }
-
-
 
             }
         });
@@ -169,17 +166,13 @@ public class Pop extends Map_Menu {
             e.printStackTrace();
         }
 
-
-
-
-
     }
 
 
     public void sendImage(){
 
 
-        //Creates storage instance and referecnes
+        //Creates storage instance and references
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
         StorageReference pictureRef = storageRef.child(FILENAME + ".jpeg");
