@@ -1,6 +1,9 @@
 package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.view.View;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -53,6 +56,14 @@ public class zone {
         squares.strokeColor(Color.argb(50, 0, 255, 0));
         squares.fillColor(Color.argb(70, 0,255, 0));
         polyline = mapRef.addPolygon(squares);
+
+        googlemap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+            public void onPolygonClick(Polygon polygon) {
+                Intent tent = new Intent(Activity.getContext(), Pop.class);
+                this.startActivity();
+
+            }
+        });
 
     }
 
