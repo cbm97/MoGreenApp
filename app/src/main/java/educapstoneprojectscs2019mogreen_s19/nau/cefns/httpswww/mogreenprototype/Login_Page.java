@@ -24,6 +24,7 @@ public class Login_Page extends AppCompatActivity {
         final EditText inputEmail = (EditText) findViewById(R.id.username);
         final EditText inputPassword = (EditText) findViewById(R.id.password);
         Button login = (Button) findViewById(R.id.login);
+        Button register = findViewById(R.id.register_button);
 
         //password authentication
         mAuth = FirebaseAuth.getInstance();
@@ -47,6 +48,15 @@ public class Login_Page extends AppCompatActivity {
 
                         });
 
+            }
+
+        });
+
+
+        register.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                Intent reg_activity =  new Intent(Login_Page.this, Register.class);
+                startActivity(reg_activity);
             }
 
         });
