@@ -1,7 +1,6 @@
 package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -58,32 +57,22 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
         //Applies Bounds, Modify padding to zoom out or in.
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(flagsLatlng,1500, 1500, 0));
 
-        //First polygon object
-        squares = new PolygonOptions();
-            squares.add(new LatLng(35.178345, -111.656999),
-                    new LatLng(35.178309, -111.656157),
-                    new LatLng(35.177801, -111.656087),
-                    new LatLng(35.177748, -111.656956),
-                    new LatLng(35.178345, -111.656999));
-                    squares.strokeColor(Color.argb(50, 0, 255, 0));
-                    squares.fillColor(Color.argb(70, 0,255, 0));
-                    Polygon polyline = mMap.addPolygon(squares);
+        //First polygon object, will be removed soon.
 
-        //Sets polygons as clickable
-        polyline.setClickable(true);
+        zone test = new zone();
+        test.create(new LatLng(35.178345, -111.656999),
+                new LatLng(35.178309, -111.656157),
+                new LatLng(35.177801, -111.656087),
+                new LatLng(35.177748, -111.656956), googleMap, "Cool Zone");
+        test.initiate();
+
 
         //Opens popup menu
         googleMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             public void onPolygonClick(Polygon polygon) {
                 startActivity(new Intent(Map_Menu.this, Pop.class));
 
-                red = red + 50;
-                green = green - 50;
-                if(red > 255){red = 255;}
-                if(green < 0){green = 0;}
 
-                polygon.setStrokeColor(Color.argb(50, red, green, 0));
-                polygon.setFillColor(Color.argb(70, red, green, 0));
 
             }
         });

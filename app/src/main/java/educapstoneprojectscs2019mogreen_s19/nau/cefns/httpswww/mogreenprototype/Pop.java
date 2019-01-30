@@ -41,6 +41,8 @@ public class Pop extends Map_Menu {
     String FILENAME = "None";
     TextView reportC;
     ImageView image;
+    String cool = "unknown";
+
     private FirebaseFirestore mDatabase;
     Map<String, Object> reportHolder = new HashMap<>();
 
@@ -49,6 +51,7 @@ public class Pop extends Map_Menu {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.popwindow);
 
+
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED){
@@ -56,6 +59,15 @@ public class Pop extends Map_Menu {
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSIONS_REQUEST_CAMERA);
         }
+
+        TextView Title = (TextView)findViewById(R.id.name);
+
+        Bundle extras = getIntent().getExtras();
+        String textt = "something was here";
+        try {
+            textt =  extras.getString("TEST");
+        }catch(Exception NullPointerException){textt = "NULL";}
+        Title.setText(textt);
 
 
 
@@ -69,6 +81,8 @@ public class Pop extends Map_Menu {
         Button takePicture = findViewById(R.id.picturebutton);
         reportC = findViewById(R.id.reportContent);
         Button submit =  findViewById(R.id.submitbutton);
+
+
 
 
 
@@ -95,7 +109,11 @@ public class Pop extends Map_Menu {
         takePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,0);
+                try {
+                    startActivityForResult(intent, 0);
+                }catch(Exception e){
+                    e.printStackTrace();
+                    }
 
             }
 
@@ -149,20 +167,22 @@ public class Pop extends Map_Menu {
         FILENAME = "" + time;
 
         //Shows image in activity
-        super.onActivityResult(requestCode, resultCode, data);
-        bitmap = (Bitmap)data.getExtras().get("data");
-        image =  findViewById(R.id.imageView2);
-        image.setImageBitmap(bitmap);
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            bitmap = (Bitmap) data.getExtras().get("data");
+            image = findViewById(R.id.imageView2);
+            image.setImageBitmap(bitmap);
+        }catch(Exception e){}
 
         //Stores file in system
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        try {
+        try{
             File photoFile = File.createTempFile(FILENAME, ".jpg", storageDir);
             reportHolder.put("image", FILENAME);
             imageFlag = 1;
 
 
-        } catch (IOException e) {
+        } catch(IOException e){
             e.printStackTrace();
         }
 

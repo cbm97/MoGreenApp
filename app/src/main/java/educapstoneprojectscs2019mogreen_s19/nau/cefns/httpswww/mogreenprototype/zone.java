@@ -1,9 +1,9 @@
 package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.graphics.Color;
-import android.view.View;
+
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -18,6 +18,8 @@ import com.google.android.gms.maps.model.PolygonOptions;
     Public void zone : Initiates a zone from four LatLng objects and a GoogleMap map reference
         Default color is bright green
 
+    Public void initiate : sets an onClick listener for the zone.
+
     Public void setColor : Allows the color to be manually changed by taking a rgb value.
         Parameters: int red , green & blue take an integer value between 0 and 255.
         Optional :
@@ -31,41 +33,51 @@ import com.google.android.gms.maps.model.PolygonOptions;
         Parameters : Boolean bool : forced status of the zone. False being inactive
                                     and True being Clickable
 
-
-
-
-
      */
 
-public class zone {
+public class zone extends Map_Menu {
     private LatLng point1, point2, point3, point4;
     PolygonOptions squares = new PolygonOptions();
     Polygon polyline;
     private GoogleMap mapRef;
     boolean active = false;
     int alphaStroke = 50, alphaFill = 70;
+    String title;
+    Intent tent;
 
 
-    public void zone(LatLng one, LatLng two, LatLng three, LatLng four, GoogleMap googlemap){
+    public void create(LatLng one, LatLng two, LatLng three, LatLng four, GoogleMap googlemap, String name){
         point1 = one;
         point2 = two;
         point3 = three;
         point4 = four;
         mapRef = googlemap;
+        title = name;
         squares.add(one, two, three, four);
         squares.strokeColor(Color.argb(50, 0, 255, 0));
         squares.fillColor(Color.argb(70, 0,255, 0));
         polyline = mapRef.addPolygon(squares);
+        polyline.setClickable(true);
 
-        googlemap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+
+
+    }
+
+    public void initiate(){
+
+        mapRef.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             public void onPolygonClick(Polygon polygon) {
-                Intent tent = new Intent(Activity.getContext(), Pop.class);
-                this.startActivity();
+                tent = new Intent(getApplicationContext(), Pop.class);
+
+                //Information sent to pop activity
+                tent.putExtra("ZONE_NAME", title);
+                tent.putExtra("TEST", "testttt");
+                startActivity(tent);
 
             }
         });
-
     }
+
 
 
     public void setColor(int red, int green, int blue){

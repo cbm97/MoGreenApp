@@ -37,15 +37,24 @@
     <EditText
         android:id="@+id/reportContent"
         android:layout_width="match_parent"
-        android:layout_height="414dp"
+        android:layout_height="380dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="58dp"
+        android:background="@null"
         android:ems="10"
         android:gravity="top"
         android:hint="Enter details here..."
         android:inputType="textNoSuggestions"
-        android:background="@null"
         android:selectAllOnFocus="true"
         android:singleLine="false" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:text="TextView"
+        android:textColor="@color/colorAccent" />
 
 </RelativeLayout>
