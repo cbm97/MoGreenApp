@@ -60,11 +60,17 @@ public class Map_Menu extends FragmentActivity implements OnMapReadyCallback {
         //First polygon object, will be removed soon.
 
         zone test = new zone();
+        zone test2 = new zone();
         test.create(new LatLng(35.178345, -111.656999),
                 new LatLng(35.178309, -111.656157),
                 new LatLng(35.177801, -111.656087),
-                new LatLng(35.177748, -111.656956), googleMap, "Cool Zone");
+                new LatLng(35.177748, -111.656956), mMap, "Cool Zone");
+        test2.create(new LatLng(35.179271,-111.655491),
+                new LatLng(35.178841,-111.655148),
+                new LatLng(35.179341,-111.654237),
+                new LatLng(35.179718,-111.654623), mMap, "Rad Zone");
         test.initiate();
+        test2.initiate();
 
 
         //Opens popup menu

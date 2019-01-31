@@ -46,7 +46,8 @@ public class zone extends Map_Menu {
     Intent tent;
 
 
-    public void create(LatLng one, LatLng two, LatLng three, LatLng four, GoogleMap googlemap, String name){
+    public void create(LatLng one, LatLng two, LatLng three, LatLng four, GoogleMap googlemap,
+                       String name){
         point1 = one;
         point2 = two;
         point3 = three;
@@ -60,7 +61,6 @@ public class zone extends Map_Menu {
         polyline.setClickable(true);
 
 
-
     }
 
     public void initiate(){
@@ -71,7 +71,6 @@ public class zone extends Map_Menu {
 
                 //Information sent to pop activity
                 tent.putExtra("ZONE_NAME", title);
-                tent.putExtra("TEST", "testttt");
                 startActivity(tent);
 
             }
