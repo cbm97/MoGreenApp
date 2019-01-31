@@ -78,7 +78,7 @@ public class Pop extends Map_Menu {
         mDatabase.setFirestoreSettings(settings);
 
 
-        Button takePicture = findViewById(R.id.picturebutton);
+        final Button takePicture = findViewById(R.id.picturebutton);
         reportC = findViewById(R.id.reportContent);
         Button submit =  findViewById(R.id.submitbutton);
 
@@ -106,14 +106,16 @@ public class Pop extends Map_Menu {
         }
 
         //Takes a picture
-        takePicture.setOnClickListener(new View.OnClickListener() {
+         takePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                takePicture.setClickable(false);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 try {
                     startActivityForResult(intent, 0);
                 }catch(Exception e){
                     e.printStackTrace();
                     }
+                takePicture.setClickable(true);
 
             }
 
@@ -140,6 +142,10 @@ public class Pop extends Map_Menu {
                         noReport.show();
                     } else {
                         reportHolder.put("content", reportContent);
+
+
+                        //We need to fix this....
+
                         reportHolder.put("user", "cbm97@nau.edu");
                         if (imageFlag == 1) {
                             sendImage();

@@ -10,8 +10,7 @@
         android:id="@+id/back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginBottom="112dp"
+        android:layout_marginStart="160dp"
         android:text="Return"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -73,7 +72,7 @@
         android:id="@+id/textView6"
         android:layout_width="201dp"
         android:layout_height="41dp"
-        android:layout_marginStart="108dp"
+        android:layout_marginStart="104dp"
         android:text="Password again:"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/passwordrepeat"
