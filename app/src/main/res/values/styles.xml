@@ -8,14 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.PopMe">
+    <style name="AppTheme.PopMe" parent="Theme.AppCompat.NoActionBar">
 
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowCloseOnTouchOutside">true</item>
 
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="NoActionBarTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

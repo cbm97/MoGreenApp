@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/Full_report"
+            android:title="Full Report" />
+        <item
+            android:id="@+id/Quick_Report"
+            android:title="Quick Report" />
+        <item
+            android:id="@+id/Settings"
+            android:title="Settings"/>
+        <item
+            android:id="@+id/Tasks"
+            android:title="Tasks"/>
+        <item
+            android:id="@+id/Help"
+            android:title="Help"/>
+
+    </group>
+    <item
+        android:id="@+id/logout"
+        android:title="Log Out" />
+</menu>

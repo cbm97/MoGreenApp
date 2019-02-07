@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.storage.FirebaseStorage;
@@ -38,10 +40,11 @@ public class Pop extends Map_Menu {
     private int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     int imageFlag = 0;
     Bitmap bitmap;
-    String FILENAME = "None";
+    String FILENAME = "None", emailGot;
     TextView reportC;
     ImageView image;
     String cool = "unknown";
+    FirebaseUser emailGet;
 
     private FirebaseFirestore mDatabase;
     Map<String, Object> reportHolder = new HashMap<>();
@@ -144,9 +147,17 @@ public class Pop extends Map_Menu {
                         reportHolder.put("content", reportContent);
 
 
-                        //We need to fix this....
+                        emailGet = FirebaseAuth.getInstance().getCurrentUser();
 
-                        reportHolder.put("user", "cbm97@nau.edu");
+
+                        if (user != null) {
+
+                            emailGot = user.getEmail();
+
+                        }
+
+
+                        reportHolder.put("user", emailGot);
                         if (imageFlag == 1) {
                             sendImage();
                         } else {
