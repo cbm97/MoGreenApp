@@ -3,11 +3,13 @@ package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -19,9 +21,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+
+
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +35,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,12 +45,12 @@ import com.squareup.picasso.Picasso;
 
 
 
-public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleMap.OnMyLocationButtonClickListener,
-        GoogleMap.OnMyLocationClickListener{
+
+public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener {
     int FINE_LOCATION_GRANTED;
-    int red = 0;
-    int green = 255;
+    LatLng currentTap;
+    private Marker currentLoc;
     private GoogleMap mMap;
     PolygonOptions squares;
     DrawerLayout mDrawerLayout;
@@ -79,7 +85,6 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback,
 
 
 
-
         nv = findViewById(R.id.nav_view);
 
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -87,10 +92,25 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback,
                 int id = item.getItemId();
                 switch(id)
                 {
+                    case R.id.Full_report:
+                        Intent full_report = new Intent(Map_Menu.this, Pop.class);
+                        try {
+                            full_report.putExtra("ZONE", currentTap.toString());
+                            startActivity(full_report);
+                        }catch(Exception e){
+                            Context context = getApplicationContext();
+                            String msg= "Please tap a location on the map";
+                            Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        return true;
+
+
                     case R.id.logout:
                         FirebaseAuth.getInstance().signOut();
                         Intent signOut = new Intent(getApplicationContext(), Login_Page.class);
                         startActivity(signOut);
+                        return true;
                     default:
                         return true;
                 }
@@ -176,12 +196,12 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback,
 
         mUiSettings.setZoomControlsEnabled(true);
 
-        Button returnMe = findViewById(R.id.returnMe);
+        /*Button returnMe = findViewById(R.id.returnMe);
         returnMe.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(flagsLatlng,1500, 1500, 0));
             }
-        });
+        });*/
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -193,6 +213,16 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback,
         }
 
 
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                if(currentTap != null){
+                    currentLoc.remove();
+                }
+                currentTap = latLng;
+                currentLoc = mMap.addMarker(new MarkerOptions().position(currentTap).title("Report Spot"));
+            }
+        });
 
 
 
@@ -202,18 +232,8 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback,
 
         //First polygon object, will be removed soon.
 
-        zone test = new zone();
-        zone test2 = new zone();
-        test.create(new LatLng(35.178345, -111.656999),
-                new LatLng(35.178309, -111.656157),
-                new LatLng(35.177801, -111.656087),
-                new LatLng(35.177748, -111.656956), mMap, "Cool Zone");
-        test2.create(new LatLng(35.179271,-111.655491),
-                new LatLng(35.178841,-111.655148),
-                new LatLng(35.179341,-111.654237),
-                new LatLng(35.179718,-111.654623), mMap, "Rad Zone");
-        test.initiate();
-        test2.initiate();
+
+
 
 
         //Opens popup menu
@@ -230,12 +250,18 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback,
 
 
     }
-
+    @Override
     public void onMyLocationClick(@NonNull Location location) {
+        if(currentTap != null){
+            currentLoc.remove();
+        }
+        currentTap = new LatLng(location.getLatitude(), location.getLongitude());
+        currentLoc = mMap.addMarker(new MarkerOptions().position(currentTap).title("Report Spot"));
 
     }
-
+    @Override
     public boolean onMyLocationButtonClick() {
+
 
         return false;
     }
@@ -251,8 +277,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback,
     }
 
 
-    }
-
+}
 
 
 

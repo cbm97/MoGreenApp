@@ -2,4 +2,15 @@
     <string name="app_name">MoGreen Prototype</string>
     <string name="title_activity_map__menu">Map</string>
     <string name="title_activity_camera">camera</string>
+    <string-array name="report_choices">
+        <item>Report Type</item>
+        <item>Litter</item>
+        <item>Trash Can</item>
+        <item>Vandalism</item>
+        <item>Glass Hazard</item>
+        <item>Stray Shopping Cart</item>
+        <item>ADA report</item>
+        <item>Broken fixture</item>
+        <item>General issues</item>
+    </string-array>
 </resources>

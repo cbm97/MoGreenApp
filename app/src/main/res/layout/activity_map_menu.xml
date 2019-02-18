@@ -17,18 +17,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/returnMe"
-            android:layout_width="48dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="645dp"
-            android:gravity="bottom"
-            android:text="R"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            android:visibility="visible" />
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -62,4 +50,3 @@
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
-

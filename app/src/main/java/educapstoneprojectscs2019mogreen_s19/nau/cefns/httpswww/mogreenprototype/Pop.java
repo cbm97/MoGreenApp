@@ -15,8 +15,10 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +42,12 @@ public class Pop extends Map_Menu {
     private int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     int imageFlag = 0;
     Bitmap bitmap;
-    String FILENAME = "None", emailGot;
-    TextView reportC;
+    String FILENAME = "None", emailGot, message;
+    TextView reportC, locat;
     ImageView image;
-    String cool = "unknown";
     FirebaseUser emailGet;
+    Spinner spinner;
+
 
     private FirebaseFirestore mDatabase;
     Map<String, Object> reportHolder = new HashMap<>();
@@ -63,18 +66,11 @@ public class Pop extends Map_Menu {
                     MY_PERMISSIONS_REQUEST_CAMERA);
         }
 
-        TextView Title = (TextView)findViewById(R.id.name);
-
-        Bundle extras = getIntent().getExtras();
-        String textt = "something was here";
-        try {
-            textt =  extras.getString("TEST");
-        }catch(Exception NullPointerException){textt = "NULL";}
-        Title.setText(textt);
 
 
 
-            mDatabase = FirebaseFirestore.getInstance();
+
+        mDatabase = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
@@ -87,7 +83,20 @@ public class Pop extends Map_Menu {
 
 
 
+        //dropdown menu
 
+        spinner = (Spinner) findViewById(R.id.report_type);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.report_choices,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinner.setAdapter(adapter);
+
+
+
+        locat = findViewById(R.id.name);
+        Bundle b = getIntent().getExtras();
+        message = b.getString("ZONE");
+        locat.setText(message);
 
 
         /*Popupwindow views and dimentions. Other settings can be viewed in
@@ -97,7 +106,7 @@ public class Pop extends Map_Menu {
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int) (width * .8), (int) (height * .6));
+        getWindow().setLayout((int) (width * .8), (int) (height * .8));
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.gravity = Gravity.CENTER;
         getWindow().setAttributes(params);
@@ -109,7 +118,7 @@ public class Pop extends Map_Menu {
         }
 
         //Takes a picture
-         takePicture.setOnClickListener(new View.OnClickListener() {
+        takePicture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 takePicture.setClickable(false);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -117,7 +126,7 @@ public class Pop extends Map_Menu {
                     startActivityForResult(intent, 0);
                 }catch(Exception e){
                     e.printStackTrace();
-                    }
+                }
                 takePicture.setClickable(true);
 
             }
@@ -134,46 +143,63 @@ public class Pop extends Map_Menu {
 
                 //Error message for lack of content
                 Context context = getApplicationContext();
-                CharSequence text = "Please fill out Report field";
+                String text = "";
                 int duration = Toast.LENGTH_LONG;
-                Toast noReport = Toast.makeText(context, text, duration);
+                Toast noReport;
 
 
                 //Getting report content
                 String reportContent = reportC.getText().toString();
-                    if (reportContent.equals("")) {
-                        noReport.show();
-                    } else {
-                        reportHolder.put("content", reportContent);
+                if (spinner.getSelectedItem().toString().equals("Report Type")){
+                    text = "Please Select Report Type\n";
+                }
+                if (reportContent.equals("")) {
+                    text = text + "Please add details to report\n";
+                }
+
+                if (text.equals("")){
+                    reportHolder.put("description", reportContent);
+                    reportHolder.put("task_type", spinner.getSelectedItem().toString());
+                    reportHolder.put("is_completed", false);
+                    reportHolder.put("task_location", message);
 
 
-                        emailGet = FirebaseAuth.getInstance().getCurrentUser();
+
+                    emailGet = FirebaseAuth.getInstance().getCurrentUser();
 
 
-                        if (user != null) {
+                    if (emailGet != null) {
 
-                            emailGot = user.getEmail();
-
-                        }
-
-
-                        reportHolder.put("user", emailGot);
-                        if (imageFlag == 1) {
-                            sendImage();
-                        } else {
-                            reportHolder.put("image", "None");
-                        }
-
-                        //Sends report from a hashmap containing any used information.
-                        mDatabase.collection("NAU").add(reportHolder);
-                        finish();
+                        emailGot = emailGet.getEmail();
 
                     }
+
+
+                    reportHolder.put("user", emailGot);
+                    if (imageFlag == 1) {
+                        sendImage();
+                    } else {
+                        reportHolder.put("image", "None");
+                    }
+
+                    //Sends report from a hashmap containing any used information.
+                    mDatabase.collection("tasks").add(reportHolder);
+                    finish();
+
+                }else{
+                    noReport = Toast.makeText(context, text, duration);
+                    noReport.show();
+                }
 
             }
         });
 
 
+    }
+
+    public void onBackPressed() {
+
+        finish();
     }
 
     @Override

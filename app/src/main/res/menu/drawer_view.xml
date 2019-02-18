@@ -12,9 +12,6 @@
             android:id="@+id/Settings"
             android:title="Settings"/>
         <item
-            android:id="@+id/Tasks"
-            android:title="Tasks"/>
-        <item
             android:id="@+id/Help"
             android:title="Help"/>
 
