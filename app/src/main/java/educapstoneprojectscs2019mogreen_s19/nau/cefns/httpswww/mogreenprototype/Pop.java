@@ -71,10 +71,7 @@ public class Pop extends Map_Menu {
 
 
         mDatabase = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        mDatabase.setFirestoreSettings(settings);
+
 
 
         final Button takePicture = findViewById(R.id.picturebutton);

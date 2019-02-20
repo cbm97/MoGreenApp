@@ -15,6 +15,10 @@
 
     </style>
 
+    <style name="pop_layout" parent="android:Theme.Dialog">
+        <item name="android:windowBackground">@drawable/pop_style</item>
+    </style>
+
     <style name="NoActionBarTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

@@ -19,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -39,11 +40,18 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -58,6 +66,8 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
     FirebaseUser user;
     String personGivenName, personEmail;
     Uri personPhoto;
+    private FirebaseFirestore db;
+    LatLngBounds flagsLatlng;
 
 
 
@@ -83,10 +93,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
 
 
-
-
         nv = findViewById(R.id.nav_view);
-
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -120,8 +127,6 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
 
 
-
-
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mDrawerLayout.addDrawerListener(
                 new DrawerLayout.DrawerListener() {
@@ -144,8 +149,11 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                         TextView name = findViewById(R.id.userName);
                         TextView email = findViewById(R.id.userEmail);
                         ImageView userPic = findViewById(R.id.userImage);
-
-                        Picasso.get().load(personPhoto.toString()).into(userPic);
+                        try {
+                            Picasso.get().load(personPhoto.toString()).into(userPic);
+                        }catch(Exception e){
+                            return;
+                        }
 
 
                         name.setText(personGivenName);
@@ -192,16 +200,10 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
         //Adds bounds for map
         LatLng flag1 = new LatLng(35.174725, -111.660692);
         LatLng flag2 = new LatLng(35.193198,  -111.649685);
-        final LatLngBounds flagsLatlng = new LatLngBounds(flag1, flag2);
+        flagsLatlng = new LatLngBounds(flag1, flag2);
 
         mUiSettings.setZoomControlsEnabled(true);
 
-        /*Button returnMe = findViewById(R.id.returnMe);
-        returnMe.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(flagsLatlng,1500, 1500, 0));
-            }
-        });*/
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -227,12 +229,29 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
 
 
+
+
         //Applies Bounds, Modify padding to zoom out or in.
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(flagsLatlng,1500, 1500, 0));
 
-        //First polygon object, will be removed soon.
+        //Grabs polygons from database and places them.
 
-
+        db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
+        db.collection("zones").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        zone Zone = document.toObject(zone.class);
+                        Zone.create(mMap);
+                    }
+                }
+            }
+        });
 
 
 
@@ -240,8 +259,6 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
         googleMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             public void onPolygonClick(Polygon polygon) {
                 startActivity(new Intent(Map_Menu.this, Pop.class));
-
-
 
             }
         });
@@ -272,15 +289,23 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.action_loc_default:
+                mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(flagsLatlng,1500, 1500, 0));
+                return true;
+            case R.id.action_refresh:
+                finish();
+                startActivity(getIntent());
+                return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.map_toolbar, menu);
+        return true;
+    }
+
 
 }
-
-
-
-
-
-

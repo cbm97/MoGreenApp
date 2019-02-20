@@ -3,16 +3,20 @@ package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.annotation.Keep;
 
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
     /*
@@ -32,53 +36,71 @@ import java.util.List;
         Parameters : Boolean bool : forced status of the zone. False being inactive
                                     and True being Clickable
      */
-
-public class zone extends Map_Menu {
-    List<LatLng> cords;
+@Keep
+public class zone {
+    public List<GeoPoint> points;
+    public String color;
     PolygonOptions squares = new PolygonOptions();
     Polygon polyline;
-    String defColor;
+    public int red, green, blue;
     private GoogleMap mapRef;
     boolean active = false;
     int alphaStroke = 50, alphaFill = 70;
-    String title;
-    Intent tent;
+    List<LatLng> latList = new ArrayList();
+
 
 
     public zone(){
 
     }
 
-    public zone(String color, List<LatLng> points){
-        cords = points;
-        defColor = color;
+    public zone(String colora, List<GeoPoint> sauce){
+        points = sauce;
+        color = colora;
+        red =  Integer.valueOf( colora.substring(1, 3), 16 );
+        green =  Integer.valueOf( colora.substring(3, 5), 16 );
+        blue =  Integer.valueOf( colora.substring(5, 7), 16 );
 
+
+    }
+
+    public void setColor(String colora){
+        color = colora;
+        red =  Integer.valueOf( colora.substring(1, 3), 16 );
+        green =  Integer.valueOf( colora.substring(3, 5), 16 );
+        blue =  Integer.valueOf( colora.substring(5, 7), 16 );
+    }
+
+    public void getPoints(List<GeoPoint> sauce){
+        points = sauce;
     }
 
     public void create(GoogleMap googlemap){
         mapRef = googlemap;
-        squares.addAll(cords);
-        squares.strokeColor(Color.argb(50, 0, 255, 0));
-        squares.fillColor(Color.argb(70, 0,255, 0));
+        for(GeoPoint please : points){
+            double latitude = please.getLatitude();;
+            double longitude= please.getLongitude();;
+            latList.add(new LatLng(latitude, longitude));
+        }
+        squares.addAll(latList);
+        squares.strokeColor(Color.argb(50, red, green, blue));
+        squares.fillColor(Color.argb(70, red, green, blue));
         polyline = mapRef.addPolygon(squares);
-        polyline.setClickable(true);
+        polyline.setClickable(false);
 
 
     }
 
-    public void initiate(){
+    /*public void initiate(){
 
         mapRef.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             public void onPolygonClick(Polygon polygon) {
-                tent = new Intent(getApplicationContext(), Pop.class);
-
-                //Information sent to pop activity
-                tent.putExtra("ZONE_NAME", title);
+                Intent tent = new Intent(getApplicationContext(), Pop.class);
                 startActivity(tent);
 
             }
         });
-    }
+    }*/
 
 
 

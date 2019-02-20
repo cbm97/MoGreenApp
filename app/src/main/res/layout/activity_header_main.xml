@@ -31,7 +31,7 @@
                 android:id="@+id/userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text=""
                 android:textColor="@color/common_google_signin_btn_text_dark_default"
                 android:textSize="24sp" />
 
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:text="TextView"
+                android:text=""
                 android:textColor="@color/common_google_signin_btn_text_dark_default"
                 android:textSize="18sp"
                 android:typeface="monospace"

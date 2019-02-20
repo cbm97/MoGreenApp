@@ -23,5 +23,9 @@ public class markerHandler {
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo)));
     }
 
+    public void setImage(Bitmap image){
+        icon = image;
+    }
+
 
 }
