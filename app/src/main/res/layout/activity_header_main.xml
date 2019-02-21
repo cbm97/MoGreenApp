@@ -57,7 +57,8 @@
             android:adjustViewBounds="false"
             android:cropToPadding="false"
             app:civ_border_color="#ffffff"
-            app:civ_border_width="2dp" />
+            app:civ_border_width="2dp"
+            tools:src="@tools:sample/avatars" />
 
     </LinearLayout>
 

@@ -90,6 +90,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionbar.setDisplayShowTitleEnabled(false);
 
 
 
@@ -296,6 +297,17 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                 finish();
                 startActivity(getIntent());
                 return true;
+            case R.id.action_full_report:
+                Intent full_report = new Intent(Map_Menu.this, Pop.class);
+                try {
+                    full_report.putExtra("ZONE", currentTap.toString());
+                    startActivity(full_report);
+                }catch(Exception e){
+                    Context context = getApplicationContext();
+                    String msg= "Please tap a location on the map";
+                    Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
 
         }
         return super.onOptionsItemSelected(item);

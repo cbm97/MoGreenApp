@@ -34,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -159,7 +160,8 @@ public class Pop extends Map_Menu {
                     reportHolder.put("task_type", spinner.getSelectedItem().toString());
                     reportHolder.put("is_completed", false);
                     reportHolder.put("task_location", message);
-
+                    Date date = new Date();
+                    reportHolder.put("time_stamp", new com.google.firebase.Timestamp(date));
 
 
                     emailGet = FirebaseAuth.getInstance().getCurrentUser();
