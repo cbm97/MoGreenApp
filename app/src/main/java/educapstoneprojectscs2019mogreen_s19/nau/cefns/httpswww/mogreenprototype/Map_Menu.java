@@ -68,6 +68,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
     Uri personPhoto;
     private FirebaseFirestore db;
     LatLngBounds flagsLatlng;
+    Intent full_report, quick_report;
 
 
 
@@ -101,7 +102,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                 switch(id)
                 {
                     case R.id.Full_report:
-                        Intent full_report = new Intent(Map_Menu.this, Pop.class);
+                        full_report = new Intent(Map_Menu.this, Pop.class);
                         try {
                             full_report.putExtra("ZONE", currentTap.toString());
                             startActivity(full_report);
@@ -298,7 +299,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                 startActivity(getIntent());
                 return true;
             case R.id.action_full_report:
-                Intent full_report = new Intent(Map_Menu.this, Pop.class);
+                full_report = new Intent(Map_Menu.this, Pop.class);
                 try {
                     full_report.putExtra("ZONE", currentTap.toString());
                     startActivity(full_report);
@@ -308,7 +309,19 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                     Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
                     toast.show();
                 }
-
+                return true;
+            case R.id.action_quick_report:
+                quick_report =  new Intent(Map_Menu.this, Quick_Report.class);
+                try {
+                    quick_report.putExtra("ZONE", currentTap.toString());
+                    startActivity(quick_report);
+                }catch(Exception e){
+                    Context context = getApplicationContext();
+                    String msg= "Please tap a location on the map";
+                    Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

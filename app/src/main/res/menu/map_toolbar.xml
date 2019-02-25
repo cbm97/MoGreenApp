@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_quick_report"
+        android:orderInCategory="300"
+        android:title="Return"
+        android:icon="@mipmap/ic_loc_quick"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_full_report"
+        android:orderInCategory="300"
+        android:title="Return"
+        android:icon="@mipmap/ic_loc_full"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="300"
+        android:title="Refresh"
+        android:icon="@mipmap/ic_user"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_loc_default"
+        android:orderInCategory="300"
+        android:title="Return"
+        android:icon="@mipmap/ic_loc_default"
+        app:showAsAction="ifRoom" />
+</menu>
