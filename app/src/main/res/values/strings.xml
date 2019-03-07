@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MoGreen Prototype</string>
+    <string name="app_name">Clean My Campus</string>
     <string name="title_activity_map__menu">Map</string>
     <string name="title_activity_camera">camera</string>
     <string-array name="report_choices">

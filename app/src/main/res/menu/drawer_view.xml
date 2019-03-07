@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <group android:checkableBehavior="single">
@@ -11,10 +11,32 @@
             android:title="Quick Report" />
         <item
             android:id="@+id/Settings"
-            android:title="Settings"/>
+            android:title="Marker Settings"/>
+        <group
+            android:id="@+id/marker_settings"
+            android:visibility="gone">
+            <item
+                android:id="@+id/markerholder1"
+                android:title = ""
+                android:layout_height="wrap_content"
+                app:actionLayout="@layout/switch_marker1"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/markerholder2"
+                android:title = ""
+                android:layout_height="wrap_content"
+                app:actionLayout="@layout/switch_marker2"
+                app:showAsAction="always" />
+            <item
+                android:id="@+id/markerholder3"
+                android:title = ""
+                android:layout_height="wrap_content"
+                app:actionLayout="@layout/switch_marker3"
+                app:showAsAction="always" />
+        </group>
         <item
             android:id="@+id/Help"
-            android:title="Help"/>
+            android:title="Help" />
 
     </group>
     <item

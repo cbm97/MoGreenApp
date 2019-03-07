@@ -48,7 +48,8 @@
 
         <activity
             android:name=".Map_Menu"
-            android:label="@string/title_activity_map__menu" />
+            android:label="@string/title_activity_map__menu"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Pop"
             android:theme="@style/AppTheme.PopMe" />

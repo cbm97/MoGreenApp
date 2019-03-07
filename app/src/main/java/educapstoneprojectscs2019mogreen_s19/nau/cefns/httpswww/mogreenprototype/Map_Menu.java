@@ -18,13 +18,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +53,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,6 +73,11 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
     private FirebaseFirestore db;
     LatLngBounds flagsLatlng;
     Intent full_report, quick_report;
+    boolean settingsFlag = false;
+    Switch marker1, marker2, marker3;
+    ArrayList<markerHandler> marker1Holder = new ArrayList<>();
+    ArrayList<markerHandler> marker2Holder = new ArrayList<>();
+    ArrayList<markerHandler> marker3Holder = new ArrayList<>();
 
 
 
@@ -95,18 +104,88 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
 
 
+
         nv = findViewById(R.id.nav_view);
+        nv.getMenu().setGroupVisible(R.id.marker_settings,false);
+        MenuItem itemSwitch1 = nv.getMenu().findItem(R.id.markerholder1);
+        itemSwitch1.setActionView(R.layout.switch_marker1);
+        MenuItem itemSwitch2 = nv.getMenu().findItem(R.id.markerholder2);
+        itemSwitch2.setActionView(R.layout.switch_marker2);
+        MenuItem itemSwitch3 = nv.getMenu().findItem(R.id.markerholder3);
+        itemSwitch3.setActionView(R.layout.switch_marker3);
+        final Switch marker1S = nv.getMenu().findItem(R.id.markerholder1).getActionView().findViewById(R.id.marker1);
+        final Switch marker2S = nv.getMenu().findItem(R.id.markerholder2).getActionView().findViewById(R.id.marker2);
+        final Switch marker3S = nv.getMenu().findItem(R.id.markerholder3).getActionView().findViewById(R.id.marker3);
+        marker1S.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(marker1S.isChecked()) {
+                    for (markerHandler i : marker1Holder) {
+                        i.setShown();
+                    }
+                } else{
+                    for(markerHandler i : marker1Holder){
+                        i.setHidden();
+                    }
+                }
+
+            }
+        });
+        marker2S.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(marker2S.isChecked()) {
+                    for (markerHandler i : marker2Holder) {
+                        i.setShown();
+                    }
+                }
+
+                else{
+                    for(markerHandler i : marker2Holder){
+                        i.setHidden();
+                    }
+                }
+
+            }
+        });
+        marker3S.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(marker3S.isChecked()) {
+                    for (markerHandler i : marker3Holder) {
+                        i.setShown();
+                    }
+                }
+
+                else{
+                    for(markerHandler i : marker3Holder){
+                        i.setHidden();
+                    }
+                }
+
+            }
+        });
+
+
+
+
+
+
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 switch(id)
                 {
                     case R.id.Full_report:
+
                         full_report = new Intent(Map_Menu.this, Pop.class);
-                        try {
+                        try
+                        {
                             full_report.putExtra("ZONE", currentTap.toString());
                             startActivity(full_report);
-                        }catch(Exception e){
+                        }
+                        catch(Exception e)
+                        {
                             Context context = getApplicationContext();
                             String msg= "Please tap a location on the map";
                             Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
@@ -115,11 +194,47 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                         return true;
 
 
+                    case R.id.Quick_Report:
+
+                        quick_report =  new Intent(Map_Menu.this, Quick_Report.class);
+                        try
+                        {
+                            quick_report.putExtra("ZONE", currentTap.toString());
+                            startActivity(quick_report);
+                        }
+                        catch(Exception e)
+                        {
+                            Context context = getApplicationContext();
+                            String msg= "Please tap a location on the map";
+                            Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        return true;
+
+
+                    case R.id.Settings:
+
+                        if(settingsFlag)
+                        {
+                            nv.getMenu().setGroupVisible(R.id.marker_settings,false);
+                            settingsFlag = false;
+                        }
+
+                        else
+                            {
+                                nv.getMenu().setGroupVisible(R.id.marker_settings,true);
+                                settingsFlag = true;
+                            }
+                        return true;
+
+
                     case R.id.logout:
+
                         FirebaseAuth.getInstance().signOut();
                         Intent signOut = new Intent(getApplicationContext(), Login_Page.class);
                         startActivity(signOut);
                         return true;
+
                     default:
                         return true;
                 }
@@ -254,6 +369,46 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                 }
             }
         });
+        db.collection("battery_recycling_markers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        markerHandler marker1 = document.toObject(markerHandler.class);
+                        marker1.initiate(mMap);
+                        marker1.toggleHidden();
+                        marker1Holder.add(marker1);
+
+                    }
+                }
+            }
+        });
+        db.collection("blue_recycling_markers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        markerHandler marker2 = document.toObject(markerHandler.class);
+                        marker2.initiate(mMap);
+                        marker2.toggleHidden();
+                        marker2Holder.add(marker2);
+                    }
+                }
+            }
+        });
+        db.collection("green_recycling_markers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for(QueryDocumentSnapshot document : task.getResult()){
+                        markerHandler marker3 = document.toObject(markerHandler.class);
+                        marker3.initiate(mMap);
+                        marker3.toggleHidden();
+                        marker3Holder.add(marker3);
+                    }
+                }
+            }
+        });
 
 
 
@@ -329,6 +484,10 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.map_toolbar, menu);
+
+
+
+
         return true;
     }
 

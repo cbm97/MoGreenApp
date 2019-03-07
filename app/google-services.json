@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "861423539121-2lpjv3qa7clhhvj0t2vpu1eaqoh46vrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype",
+            "certificate_hash": "cea82f8e387a213379c918a307cbd2fb2f7a476e"
+          }
+        },
+        {
           "client_id": "861423539121-8052as3o94i961jrkoagium1uq42n41k.apps.googleusercontent.com",
           "client_type": 3
         }
