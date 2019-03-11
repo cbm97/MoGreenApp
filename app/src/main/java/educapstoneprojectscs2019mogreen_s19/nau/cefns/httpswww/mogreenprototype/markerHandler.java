@@ -13,6 +13,7 @@ public class markerHandler {
     Bitmap icon;
     GoogleMap mMap;
     public GeoPoint point;
+    public String markerType;
     Marker thisMarker;
     Boolean markerFlag = true;
 
@@ -21,13 +22,19 @@ public class markerHandler {
 
     }
 
-    public void markerHandler(GeoPoint point){
+    public void markerHandler(GeoPoint point, String markerType)
+    {
         this.point = point;
+        this.markerType = markerType;
     }
 
     public void setPoint(GeoPoint point){
         this.point = point;
 
+    }
+
+    public String getType(){
+        return this.markerType;
     }
 
 

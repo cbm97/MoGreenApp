@@ -31,6 +31,22 @@
           }
         },
         {
+          "client_id": "861423539121-2rm0rau5a2u706diig1idmhjmlc8fa9l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype",
+            "certificate_hash": "05a637ae412e1074e641dec34a7502f35c63639c"
+          }
+        },
+        {
+          "client_id": "861423539121-o77j3dise751vabpt2ffujiab1csr4jf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype",
+            "certificate_hash": "227371565aeab0e51b081a4ef6f140ecdedbd919"
+          }
+        },
+        {
           "client_id": "861423539121-8052as3o94i961jrkoagium1uq42n41k.apps.googleusercontent.com",
           "client_type": 3
         }

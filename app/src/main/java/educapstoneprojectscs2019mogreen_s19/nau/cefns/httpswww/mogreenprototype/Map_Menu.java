@@ -358,7 +358,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
-        db.collection("zones").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("NAU_zones").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
@@ -369,42 +369,20 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                 }
             }
         });
-        db.collection("battery_recycling_markers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.collection("NAU_markers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot document : task.getResult()){
                         markerHandler marker1 = document.toObject(markerHandler.class);
+                        String type = marker1.getType();
+                        if(type.equals("GreenMarker")){marker1Holder.add(marker1);}
+                        else if(type.equals("BlueMarker")){marker2Holder.add(marker1);}
+                        else if(type.equals("BatteryMarker")){marker3Holder.add(marker1);}
                         marker1.initiate(mMap);
                         marker1.toggleHidden();
-                        marker1Holder.add(marker1);
 
-                    }
-                }
-            }
-        });
-        db.collection("blue_recycling_markers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document : task.getResult()){
-                        markerHandler marker2 = document.toObject(markerHandler.class);
-                        marker2.initiate(mMap);
-                        marker2.toggleHidden();
-                        marker2Holder.add(marker2);
-                    }
-                }
-            }
-        });
-        db.collection("green_recycling_markers").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    for(QueryDocumentSnapshot document : task.getResult()){
-                        markerHandler marker3 = document.toObject(markerHandler.class);
-                        marker3.initiate(mMap);
-                        marker3.toggleHidden();
-                        marker3Holder.add(marker3);
+
                     }
                 }
             }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Clean My Campus</string>
+    <string name="app_name">MoGreenPrototype</string>
     <string name="title_activity_map__menu">Map</string>
     <string name="title_activity_camera">camera</string>
     <string-array name="report_choices">
@@ -8,9 +8,10 @@
         <item>Trash Can</item>
         <item>Vandalism</item>
         <item>Glass Hazard</item>
+        <item>Repair</item>
         <item>Shopping Cart</item>
-        <item>ADA report</item>
-        <item>Broken fixture</item>
-        <item>General issues</item>
+        <item>ADA Report</item>
+        <item>Broken Fixture</item>
+        <item>General Issues</item>
     </string-array>
 </resources>
