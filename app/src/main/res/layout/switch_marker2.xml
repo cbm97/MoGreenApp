@@ -1,18 +1,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center|left"
     android:orientation="vertical">
 
 
-
     <Switch
         android:id="@+id/marker2"
-        android:text="Marker 2 "
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"/>
+        android:text="Show Glass Recycling "
+        android:textSize="18sp" />
 
 
 </LinearLayout>

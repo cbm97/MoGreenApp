@@ -1,10 +1,8 @@
 package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype;
 
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.Keep;
-
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -12,11 +10,8 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 
     /*

@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,7 +39,6 @@ import java.util.Map;
 
 public class Pop extends Map_Menu {
 
-    private int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     int imageFlag = 0;
     Bitmap bitmap;
     String FILENAME = "None", emailGot, message;
@@ -48,10 +46,9 @@ public class Pop extends Map_Menu {
     ImageView image;
     FirebaseUser emailGet;
     Spinner spinner;
-
-
-    private FirebaseFirestore mDatabase;
     Map<String, Object> reportHolder = new HashMap<>();
+    private int MY_PERMISSIONS_REQUEST_CAMERA = 0;
+    private FirebaseFirestore mDatabase;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -61,24 +58,19 @@ public class Pop extends Map_Menu {
 
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED){
+                != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.CAMERA},
                     MY_PERMISSIONS_REQUEST_CAMERA);
         }
 
 
-
-
-
         mDatabase = FirebaseFirestore.getInstance();
-
 
 
         final Button takePicture = findViewById(R.id.picturebutton);
         reportC = findViewById(R.id.reportContent);
-        Button submit =  findViewById(R.id.submitbutton);
-
+        Button submit = findViewById(R.id.submitbutton);
 
 
         //dropdown menu
@@ -88,7 +80,6 @@ public class Pop extends Map_Menu {
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinner.setAdapter(adapter);
-
 
 
         locat = findViewById(R.id.name);
@@ -122,7 +113,7 @@ public class Pop extends Map_Menu {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 try {
                     startActivityForResult(intent, 0);
-                }catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 takePicture.setClickable(true);
@@ -133,10 +124,9 @@ public class Pop extends Map_Menu {
         });
 
 
-
         //Submit button workings
-        submit.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        submit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
 
                 //Error message for lack of content
@@ -148,14 +138,14 @@ public class Pop extends Map_Menu {
 
                 //Getting report content
                 String reportContent = reportC.getText().toString();
-                if (spinner.getSelectedItem().toString().equals("Report Type")){
+                if (spinner.getSelectedItem().toString().equals("Report Type")) {
                     text = "Please Select Report Type\n";
                 }
                 if (reportContent.equals("")) {
                     text = text + "Please add details to report\n";
                 }
 
-                if (text.equals("")){
+                if (text.equals("")) {
                     reportHolder.put("description", reportContent);
                     reportHolder.put("task_type", spinner.getSelectedItem().toString());
                     reportHolder.put("is_completed", false);
@@ -185,7 +175,7 @@ public class Pop extends Map_Menu {
                     mDatabase.collection("tasks").add(reportHolder);
                     finish();
 
-                }else{
+                } else {
                     noReport = Toast.makeText(context, text, duration);
                     noReport.show();
                 }
@@ -214,24 +204,25 @@ public class Pop extends Map_Menu {
             bitmap = (Bitmap) data.getExtras().get("data");
             image = findViewById(R.id.imageView2);
             image.setImageBitmap(bitmap);
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
 
         //Stores file in system
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        try{
+        try {
             File photoFile = File.createTempFile(FILENAME, ".jpg", storageDir);
             reportHolder.put("image", FILENAME);
             imageFlag = 1;
 
 
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
 
-    public void sendImage(){
+    public void sendImage() {
 
 
         //Creates storage instance and references

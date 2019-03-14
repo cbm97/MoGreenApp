@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center|left"
@@ -10,8 +9,8 @@
         android:id="@+id/marker3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Marker 3 "
-        android:textSize="18sp"/>
+        android:text="Show Battery Recycling "
+        android:textSize="18sp" />
 
 
 </LinearLayout>

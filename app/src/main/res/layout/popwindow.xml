@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:persistentDrawingCache="animation"
-    android:theme="@style/pop_layout"
-    android:radius="20dp" >
+    android:radius="20dp"
+    android:theme="@style/pop_layout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +13,7 @@
         android:background="@color/fui_bgGoogle"
         android:gravity="top"
         android:orientation="vertical"
-        android:radius="20dp" >
+        android:radius="20dp">
 
 
         <Spinner

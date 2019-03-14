@@ -1,7 +1,6 @@
 package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;

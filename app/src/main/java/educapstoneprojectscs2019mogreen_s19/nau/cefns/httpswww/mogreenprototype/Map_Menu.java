@@ -1,48 +1,46 @@
 package educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype;
 
 
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,33 +52,50 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener {
     int FINE_LOCATION_GRANTED;
     LatLng currentTap;
-    private Marker currentLoc;
-    private GoogleMap mMap;
-    PolygonOptions squares;
     DrawerLayout mDrawerLayout;
     NavigationView nv;
     FirebaseUser user;
     String personGivenName, personEmail;
     Uri personPhoto;
-    private FirebaseFirestore db;
     LatLngBounds flagsLatlng;
     Intent full_report, quick_report;
     boolean settingsFlag = false;
-    Switch marker1, marker2, marker3;
+    BitmapDescriptor greenM, blueM, battery;
     ArrayList<markerHandler> marker1Holder = new ArrayList<>();
     ArrayList<markerHandler> marker2Holder = new ArrayList<>();
     ArrayList<markerHandler> marker3Holder = new ArrayList<>();
+    private Marker currentLoc;
+    private GoogleMap mMap;
+    private FirebaseFirestore db;
 
 
+    //Method generateBitmapDescriptorFromRes used from
+    // https://gist.github.com/EfeBudak/a9ec13d9d582c6cc7f11156e6775ea47#file-bitmaputils-java
+    //as a workaround for using images in map markers.
 
+    public static BitmapDescriptor generateBitmapDescriptorFromRes(
+            Context context, int resId) {
+
+        Drawable drawable = ContextCompat.getDrawable(context, resId);
+        drawable.setBounds(
+                0,
+                0,
+                drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(
+                drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +105,15 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+
+        //Create Bitmap from drawable resources (icons)
+
+
+        blueM = generateBitmapDescriptorFromRes(this, R.drawable.bluerec30px);
+        greenM = generateBitmapDescriptorFromRes(this, R.drawable.greenrec30px);
+        battery = generateBitmapDescriptorFromRes(this, R.drawable.batterymarker30px);
 
 
 
@@ -293,6 +317,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
 
     }
+
     public void onBackPressed() {
 
         return;
@@ -376,9 +401,23 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                     for(QueryDocumentSnapshot document : task.getResult()){
                         markerHandler marker1 = document.toObject(markerHandler.class);
                         String type = marker1.getType();
-                        if(type.equals("GreenMarker")){marker1Holder.add(marker1);}
-                        else if(type.equals("BlueMarker")){marker2Holder.add(marker1);}
-                        else if(type.equals("BatteryMarker")){marker3Holder.add(marker1);}
+                        marker1.setConext(getBaseContext());
+                        if(type.equals("GreenMarker"))
+                        {
+                            marker1.setImage(greenM);
+                            marker1Holder.add(marker1);
+                        }
+                        else if(type.equals("BlueMarker"))
+                        {
+                            marker1.setImage(blueM);
+                            marker2Holder.add(marker1);
+
+                        }
+                        else if(type.equals("BatteryMarker"))
+                        {
+                            marker1.setImage(battery);
+                            marker3Holder.add(marker1);
+                        }
                         marker1.initiate(mMap);
                         marker1.toggleHidden();
 
@@ -402,6 +441,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
 
     }
+
     @Override
     public void onMyLocationClick(@NonNull Location location) {
         if(currentTap != null){
@@ -411,13 +451,13 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
         currentLoc = mMap.addMarker(new MarkerOptions().position(currentTap).title("Report Spot"));
 
     }
+
     @Override
     public boolean onMyLocationButtonClick() {
 
 
         return false;
     }
-
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -459,6 +499,8 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
         return super.onOptionsItemSelected(item);
     }
 
+
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.map_toolbar, menu);
@@ -468,6 +510,5 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
         return true;
     }
-
 
 }
