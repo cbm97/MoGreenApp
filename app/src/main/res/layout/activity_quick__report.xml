@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/browser_actions_bg_grey"
+    android:background="@color/browser_actions_title_color"
     android:persistentDrawingCache="animation"
     android:theme="@style/pop_layout">
 
@@ -11,23 +11,66 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:orientation="horizontal">
 
-        <Spinner
-            android:id="@+id/report_type"
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:visibility="visible" />
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
 
-        <Button
-            android:id="@+id/q_r_submit"
-            style="@style/FirebaseUI.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"
-            android:visibility="visible" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_weight="0" />
+
+            <Spinner
+                android:id="@+id/report_type"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/q_r_submit"
+                    style="@style/FirebaseUI.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="-1dp"
+                    android:text="Submit"
+                    android:visibility="visible" />
+
+                <ToggleButton
+                    android:id="@+id/cleanSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:checked="false"
+                    android:paddingTop="15dp"
+                    android:text="ToggleButton"
+                    android:textOff="Mark as Clean"
+                    android:textOn="Marked Clean" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -19,16 +20,29 @@
         android:required="true" />
 
     <application
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
+
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="educapstoneprojectscs2019mogreen_s19.nau.cefns.httpswww.mogreenprototype.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity android:name=".Login_Page">
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -49,16 +63,20 @@
 
         <activity
             android:name=".Map_Menu"
-            android:label="@string/title_activity_map__menu"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_map__menu" />
         <activity
             android:name=".Pop"
             android:theme="@style/AppTheme.PopMe" />
         <activity android:name=".Register" />
-        <activity android:name=".Quick_Report"
-            android:theme="@style/AppTheme.PopMe"/>
-
-
+        <activity
+            android:name=".help_page"
+            android:theme= "@style/AppTheme.PopMe"
+        />
+        <activity
+            android:name=".Quick_Report"
+            android:theme= "@style/AppTheme.PopMe"
+            />
     </application>
 
 </manifest>

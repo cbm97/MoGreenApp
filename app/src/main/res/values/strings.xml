@@ -7,11 +7,14 @@
         <item>Litter</item>
         <item>Trash Can</item>
         <item>Vandalism</item>
-        <item>Glass Hazard</item>
+        <item>Safety Hazard</item>
         <item>Repair</item>
         <item>Shopping Cart</item>
         <item>ADA Report</item>
         <item>Broken Fixture</item>
         <item>General Issues</item>
+    </string-array>
+    <string-array name="report_choices_c">
+        <item>Litter</item>
     </string-array>
 </resources>

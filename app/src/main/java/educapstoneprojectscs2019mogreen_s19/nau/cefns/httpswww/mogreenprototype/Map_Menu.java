@@ -20,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 
 public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -108,6 +110,7 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
 
 
+
         //Create Bitmap from drawable resources (icons)
 
 
@@ -119,9 +122,9 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
 
         //Toolbar listener
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionbar = getSupportActionBar();
+        final ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionbar.setDisplayShowTitleEnabled(false);
@@ -198,41 +201,40 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
         nv.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-                switch(id)
-                {
+                switch(id) {
                     case R.id.Full_report:
 
                         full_report = new Intent(Map_Menu.this, Pop.class);
-                        try
-                        {
+                        try {
                             full_report.putExtra("ZONE", currentTap.toString());
                             startActivity(full_report);
-                        }
-                        catch(Exception e)
-                        {
+                        } catch (Exception e) {
                             Context context = getApplicationContext();
-                            String msg= "Please tap a location on the map";
+                            String msg = "Please tap a location on the map";
                             Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
                             toast.show();
                         }
+                        mDrawerLayout.closeDrawers();
+
                         return true;
 
 
                     case R.id.Quick_Report:
 
-                        quick_report =  new Intent(Map_Menu.this, Quick_Report.class);
-                        try
-                        {
-                            quick_report.putExtra("ZONE", currentTap.toString());
-                            startActivity(quick_report);
-                        }
-                        catch(Exception e)
+                        quick_report = new Intent(Map_Menu.this, Quick_Report.class);
+
+                        try{
+                        quick_report.putExtra("ZONE", currentTap.toString());
+                        startActivity(quick_report);
+
+                        }catch(Exception e)
                         {
                             Context context = getApplicationContext();
                             String msg= "Please tap a location on the map";
                             Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
                             toast.show();
                         }
+                        mDrawerLayout.closeDrawers();
                         return true;
 
 
@@ -258,7 +260,11 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
                         Intent signOut = new Intent(getApplicationContext(), Login_Page.class);
                         startActivity(signOut);
                         return true;
-
+                    case R.id.Help:
+                        Intent help = new Intent(getApplicationContext(),help_page.class);
+                        startActivity(help);
+                        mDrawerLayout.closeDrawers();
+                        return true;
                     default:
                         return true;
                 }
@@ -337,6 +343,8 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
         mMap = googleMap;
         UiSettings mUiSettings;
         mUiSettings = mMap.getUiSettings();
+        //mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMyLocationButtonClickListener(this);
 
 
         //Adds bounds for map
@@ -455,9 +463,19 @@ public class Map_Menu extends AppCompatActivity implements OnMapReadyCallback, G
     @Override
     public boolean onMyLocationButtonClick() {
 
+        if(currentTap != null){
+            currentLoc.remove();
+        }
+
+        currentTap = new LatLng(mMap.getCameraPosition().target.latitude,
+                mMap.getCameraPosition().target.longitude);
+        currentLoc = mMap.addMarker(new MarkerOptions().position(currentTap).title("Report Spot"));
 
         return false;
+
     }
+
+
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

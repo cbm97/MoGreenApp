@@ -11,7 +11,7 @@
         android:id="@+id/action_full_report"
         android:orderInCategory="300"
         android:title="Return"
-        android:icon="@mipmap/ic_loc_full"
+        android:icon="@mipmap/ic_walking"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_refresh"

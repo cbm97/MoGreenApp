@@ -17,10 +17,12 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,10 +44,11 @@ public class Pop extends Map_Menu {
     int imageFlag = 0;
     Bitmap bitmap;
     String FILENAME = "None", emailGot, message;
-    TextView reportC, locat;
+    TextView reportC;
     ImageView image;
     FirebaseUser emailGet;
     Spinner spinner;
+    ToggleButton toggle;
     Map<String, Object> reportHolder = new HashMap<>();
     private int MY_PERMISSIONS_REQUEST_CAMERA = 0;
     private FirebaseFirestore mDatabase;
@@ -81,11 +84,6 @@ public class Pop extends Map_Menu {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinner.setAdapter(adapter);
 
-
-        locat = findViewById(R.id.name);
-        Bundle b = getIntent().getExtras();
-        message = b.getString("ZONE");
-        locat.setText(message);
 
 
         /*Popupwindow views and dimentions. Other settings can be viewed in
@@ -124,6 +122,7 @@ public class Pop extends Map_Menu {
         });
 
 
+
         //Submit button workings
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -146,6 +145,8 @@ public class Pop extends Map_Menu {
                 }
 
                 if (text.equals("")) {
+                    Bundle b = getIntent().getExtras();
+                    message = b.getString("ZONE");
                     reportHolder.put("description", reportContent);
                     reportHolder.put("task_type", spinner.getSelectedItem().toString());
                     reportHolder.put("is_completed", false);
